@@ -6,9 +6,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
+    "fix": "npx prettier --write src/app/**/* && ng lint --fix",
     "e2e": "ng e2e"
   },
   "private": true,
