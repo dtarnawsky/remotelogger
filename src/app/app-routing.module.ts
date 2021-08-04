@@ -8,8 +8,16 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'devices',
     pathMatch: 'full'
+  },
+  {
+    path: 'devices',
+    loadChildren: () => import('./devices/devices.module').then( m => m.DevicesPageModule)
+  },
+  {
+    path: 'devices/:id/logs',
+    loadChildren: () => import('./logger/logger.module').then( m => m.LoggerPageModule)
   },
 ];
 

@@ -1,7 +1,7 @@
 export interface LogEntry {
   created: string;
   message: string;
-  deviceIdentifier: string;
+  id: string;
   logLevel: string;
   codeRef: string;
 }

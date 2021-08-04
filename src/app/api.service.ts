@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Device } from './entities/device';
 import { LogEntry } from './entities/logentry';
 
 @Injectable({
@@ -7,10 +8,14 @@ import { LogEntry } from './entities/logentry';
 })
 export class ApiService {
 
-  private url = 'https://remotelogger20210730165210.azurewebsites.net/log/';
+  private url = 'https://remotelogger20210730165210.azurewebsites.net';
   constructor(private http: HttpClient) { }
 
   async getLogEntries(device: string): Promise<Array<LogEntry>> {
-    return this.http.get<Array<LogEntry>>(this.url + device).toPromise();
+    return this.http.get<Array<LogEntry>>(this.url + '/log/' +device).toPromise();
+  }
+
+  async getDevices(): Promise<Array<Device>> {
+    return this.http.get<Array<Device>>(this.url + '/devices').toPromise();
   }
 }

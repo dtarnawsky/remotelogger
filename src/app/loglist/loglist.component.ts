@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
 import { LogEntry } from '../entities/logentry';
 import { LogAction } from './logaction';
@@ -8,17 +15,20 @@ import { LogAction } from './logaction';
   templateUrl: './loglist.component.html',
   styleUrls: ['./loglist.component.scss'],
 })
-export class LoglistComponent implements OnInit {
+export class LoglistComponent implements OnInit, OnDestroy {
   @Input() deviceIdentifier: string;
   @Input() actions: EventEmitter<LogAction>;
 
   public entries: Array<LogEntry> = [];
 
+  private subscription: Subscription;
+  private timer: any;
+
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.update();
-    this.actions.subscribe((action: LogAction) => {
+    this.subscription = this.actions.subscribe((action: LogAction) => {
       if (action === LogAction.clear) {
         this.entries.splice(0, this.entries.length);
       }
@@ -26,9 +36,16 @@ export class LoglistComponent implements OnInit {
         this.update();
       }
     });
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.update();
     }, 5000);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   colorFor(logLevel: string) {
@@ -39,6 +56,10 @@ export class LoglistComponent implements OnInit {
   }
 
   async update() {
+    if (!this.deviceIdentifier) {
+      this.entries.splice(0, this.entries.length);
+      return;
+    }
     const entries = await this.apiService.getLogEntries(this.deviceIdentifier);
     this.entries.push(...entries);
   }
