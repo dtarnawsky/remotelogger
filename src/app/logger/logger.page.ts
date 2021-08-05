@@ -5,7 +5,6 @@ import { StateService } from '../state.service';
 
 interface LoggerViewModel {
   device: Device;
-  deviceIdentifier: string;
   actions: EventEmitter<LogAction>;
 }
 
@@ -17,7 +16,6 @@ interface LoggerViewModel {
 export class LoggerPage {
   public vm: LoggerViewModel = {
     device: undefined,
-    deviceIdentifier: 'mydevice',
     actions: new EventEmitter<LogAction>(),
   };
 

@@ -3,6 +3,7 @@
     <ion-badge class="badge" [color]="colorFor(entry.logLevel)">{{
       entry.logLevel
     }}</ion-badge>
-    <ion-label class="mono">&nbsp;{{ entry.message }}</ion-label>
+    <ion-label class="mono">&nbsp;{{ entry.message }}</ion-label
+    ><ion-badge class="mono dim" slot="end">{{ entry.codeRef }}</ion-badge>
   </ion-item>
 </ion-list>

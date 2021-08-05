@@ -16,11 +16,21 @@ import { LogAction } from './logaction';
   styleUrls: ['./loglist.component.scss'],
 })
 export class LoglistComponent implements OnInit, OnDestroy {
-  @Input() deviceIdentifier: string;
   @Input() actions: EventEmitter<LogAction>;
 
   public entries: Array<LogEntry> = [];
 
+  get deviceIdentifier(): string {
+    return this.deviceId;
+  }
+
+  @Input()
+  set deviceIdentifier(deviceIdentifier: string) {
+    this.deviceId = deviceIdentifier;
+    this.update();
+  }
+
+  private deviceId: string;
   private subscription: Subscription;
   private timer: any;
 
@@ -60,7 +70,23 @@ export class LoglistComponent implements OnInit, OnDestroy {
       this.entries.splice(0, this.entries.length);
       return;
     }
+    if (this.entries.length === 0) {
+      this.load();
+    }
     const entries = await this.apiService.getLogEntries(this.deviceIdentifier);
     this.entries.push(...entries);
+    this.save();
+  }
+
+  load() {
+    try {
+      this.entries = JSON.parse(sessionStorage['log-' + this.deviceIdentifier]);
+    } catch {}
+  }
+
+  save() {
+    sessionStorage['log-' + this.deviceIdentifier] = JSON.stringify(
+      this.entries
+    );
   }
 }

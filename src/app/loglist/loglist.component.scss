@@ -7,6 +7,13 @@
   min-width: 40px;
 }
 
+.dim {
+  opacity: 0.3;
+  font-size: xx-small;
+  background-color: transparent;
+  color: black;
+}
+
 ion-item {
   --min-height: unset;
 }
