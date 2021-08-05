@@ -8,6 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
 import { LogEntry } from '../entities/logentry';
+import { StateService } from '../state.service';
 import { LogAction } from './logaction';
 
 @Component({
@@ -34,7 +35,7 @@ export class LoglistComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private timer: any;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private stateService: StateService) { }
 
   ngOnInit() {
     this.update();
@@ -82,14 +83,21 @@ export class LoglistComponent implements OnInit, OnDestroy {
       this.load();
     }
     const entries = await this.apiService.getLogEntries(this.deviceIdentifier);
-    this.entries.push(...entries);
+    for (const entry of entries) {
+      const product = '@ion-logger:';
+      if (entry.message.startsWith(product)) {
+        this.stateService.testResults.emit(entry.message.substr(product.length, entry.message.length - product.length));
+      } else {
+        this.entries.push(entry);
+      }
+    }    
     this.save();
   }
 
   load() {
     try {
       this.entries = JSON.parse(sessionStorage['log-' + this.deviceIdentifier]);
-    } catch {}
+    } catch { }
   }
 
   save() {

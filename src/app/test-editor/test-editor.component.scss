@@ -6,4 +6,15 @@
   padding: 10px;
   border-radius: 8px;
   height: calc(100% - 20px);
+  overflow-y:hidden;
+}
+
+.foot {
+    position: fixed; 
+    bottom:0%;
+    width: 100%;
+    height: 30px;
+    color: white;
+    margin-left: 20px;
+    margin-bottom: 20px;    
 }

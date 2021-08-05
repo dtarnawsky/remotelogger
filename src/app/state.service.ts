@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Device } from './entities/device';
 
 @Injectable({
@@ -7,6 +7,8 @@ import { Device } from './entities/device';
 export class StateService {
 
   public device: Device;
+
+  public testResults = new EventEmitter<string>();
 
   constructor() { }
 }

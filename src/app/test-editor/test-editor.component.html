@@ -1,9 +1,14 @@
 <div class="frame">
-  <ngs-code-editor
+  <div style="height: 8px">
+  <ion-progress-bar [hidden]="pcComplete == 1" style="width:calc(100%-100px); margin-bottom:10px" value="{{pcComplete}}"></ion-progress-bar>
+</div>
+  <ngs-code-editor style="height:100%"
     [theme]="theme"
     [codeModel]="model"
     [options]="options"
     (valueChanged)="onCodeChanged($event)"
+    (loaded)="loaded()"
   >
-  </ngs-code-editor>
+  </ngs-code-editor>  
 </div>
+<div class="foot"><ion-badge style="padding:10px" [color]="msgColor">{{lastMessage}}</ion-badge></div>

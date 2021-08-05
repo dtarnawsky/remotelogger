@@ -29,7 +29,7 @@ export class LoggerPage {
   constructor(
     private stateService: StateService,
     private apiService: ApiService
-  ) {}
+  ) { }
 
   ionViewWillEnter() {
     this.vm.device = this.stateService.device;
@@ -56,10 +56,19 @@ export class LoggerPage {
 
   async runTest() {
     try {
+      if (!this.vm.device) {
+        document.location.href = document.location.origin;
+        return;
+      }
       this.vm.busy = true;
-      await this.apiService.setActions(this.vm.device.id, [
-        { code: this.vm.code },
-      ]);
+      const lines = this.vm.code.split('\n');
+      let code = [];
+      for (const line of lines) {
+        code.push({ code: line });
+      }
+      this.stateService.testResults.emit('0:Sending test...');
+      await this.apiService.setActions(this.vm.device.id, code);
+      this.stateService.testResults.emit('0:Waiting for test results...');
     } finally {
       this.vm.busy = false;
     }
