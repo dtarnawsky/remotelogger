@@ -68,6 +68,14 @@ export class LoglistComponent implements OnInit, OnDestroy {
   async update() {
     if (!this.deviceIdentifier) {
       this.entries.splice(0, this.entries.length);
+      this.entries.push({
+        message:
+          'Entries will appear here where you have console.log and similar calls in your app.',
+        logLevel: 'info',
+        created: undefined,
+        codeRef: 'none',
+        id: '123',
+      });
       return;
     }
     if (this.entries.length === 0) {

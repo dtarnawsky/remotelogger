@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Action } from './entities/action';
 import { Device } from './entities/device';
 import { LogEntry } from './entities/logentry';
 
@@ -17,5 +18,9 @@ export class ApiService {
 
   async getDevices(): Promise<Array<Device>> {
     return this.http.get<Array<Device>>(this.url + '/devices').toPromise();
+  }
+
+  async setActions(device: string, actions: Array<Action>) {
+    return this.http.post(this.url + '/actions/' + device, actions).toPromise();
   }
 }

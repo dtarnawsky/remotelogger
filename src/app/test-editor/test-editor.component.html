@@ -1,3 +1,9 @@
-<p>
-  test-editor works!
-</p>
+<div class="frame">
+  <ngs-code-editor
+    [theme]="theme"
+    [codeModel]="model"
+    [options]="options"
+    (valueChanged)="onCodeChanged($event)"
+  >
+  </ngs-code-editor>
+</div>

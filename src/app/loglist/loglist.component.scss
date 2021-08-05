@@ -1,6 +1,7 @@
 .mono {
   font-family: monospace;
   font-size: small;
+  color: white;
 }
 
 .badge {
@@ -11,9 +12,23 @@
   opacity: 0.3;
   font-size: xx-small;
   background-color: transparent;
-  color: black;
+  color: white;
 }
 
 ion-item {
   --min-height: unset;
+}
+
+.frame {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: #1e1e1e;
+  padding: 10px;
+  border-radius: 8px;
+  height: calc(100% - 20px);
+}
+
+.item {
+  --background: #1e1e1e;
 }
