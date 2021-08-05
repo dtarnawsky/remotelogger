@@ -6,6 +6,7 @@ import { StateService } from '../state.service';
 interface LoggerViewModel {
   device: Device;
   actions: EventEmitter<LogAction>;
+  showTests: boolean
 }
 
 @Component({
@@ -17,6 +18,7 @@ export class LoggerPage {
   public vm: LoggerViewModel = {
     device: undefined,
     actions: new EventEmitter<LogAction>(),
+    showTests: false
   };
 
   constructor(private stateService: StateService) {}
@@ -31,5 +33,9 @@ export class LoggerPage {
 
   refresh() {
     this.vm.actions.emit(LogAction.refresh);
+  }
+
+  segmentChanged(event) {
+    this.vm.showTests = event.detail.value === 'tests';
   }
 }

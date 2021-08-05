@@ -5,12 +5,12 @@
     </ion-buttons>
     <ion-title>{{vm.device?.name}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="refresh()"
-        ><ion-icon name="refresh-outline"></ion-icon
-      ></ion-button>
-      <ion-button (click)="clear()"
-        ><ion-icon name="close-circle-outline"></ion-icon
-      ></ion-button>
+      <ion-button (click)="refresh()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="clear()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -21,6 +21,20 @@
       <ion-title size="large">{{vm.device?.name}}</ion-title>
     </ion-toolbar>
   </ion-header>
-  <app-loglist [deviceIdentifier]="vm.device?.id" [actions]="vm.actions">
+
+  <ion-toolbar>
+    <ion-title>
+      <ion-segment value="logs" mode="ios" (ionChange)="segmentChanged($event)" style="width:300px">
+        <ion-segment-button value="logs">
+          <ion-label>Logs</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="tests">
+          <ion-label>Tests</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-title>
+  </ion-toolbar>
+  <app-loglist [hidden]="vm.showTests" [deviceIdentifier]="vm.device?.id" [actions]="vm.actions">
   </app-loglist>
+  <app-test-editor [hidden]="!vm.showTests"></app-test-editor>
 </ion-content>
